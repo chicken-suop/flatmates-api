@@ -183,6 +183,7 @@ type PropertyType =
     | 'whole-properties'
     | 'student-accommodation'
     | 'homestays';
+type PropertySearchSort = 'newest' | 'cheapest' | 'most-expensive' | 'earliest-available' | 'recently-active';
 
 export interface SearchPropertiesArgs {
     location: string;
@@ -201,6 +202,8 @@ export interface SearchPropertiesArgs {
     parkingType?: ParkingType;
     acceptingOf?: AcceptingOf[];
     keywords?: string[];
+    numberOfPropertiesToReturn?: number;
+    sort?: PropertySearchSort,
 }
 
 export interface Property {

@@ -15,6 +15,8 @@ const searchArgs: SearchPropertiesArgs = {
     billsIncluded: true,
     availableFrom: new Date('2024-04-01'),
     stayLength: '1-year',
+    sort: 'cheapest',
+    numberOfPropertiesToReturn: 24,
 };
 
 const properties = await searchProperties(sessionConfig, searchArgs);

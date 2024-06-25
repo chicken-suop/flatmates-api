@@ -1,4 +1,4 @@
-import { API_BASE_URL } from "./client";
+import { API_BASE_URL, fetchGetHtml } from "./client";
 import type { Property, SearchPropertiesArgs } from "./types";
 import { formatDateToDDMMYYYY } from "./utils";
 
@@ -18,7 +18,8 @@ export function buildSearchUrl({
     rooms,
     parkingType,
     acceptingOf,
-    keywords
+    keywords,
+    sort
 }: SearchPropertiesArgs): string {
     const propertyTypesParam = propertyTypes?.join('+') ?? 'rooms';
     const acceptingOfParam = acceptingOf?.join('+') ?? '';
@@ -42,14 +43,15 @@ export function buildSearchUrl({
         minPriceParam,
         maxPriceParam,
         billsIncludedParam,
-        acceptingOfParam
+        acceptingOfParam,
+        sort
     ].filter(param => param).join('+');
 
-    return `/${[
+    return [
         propertyTypesParam,
         location,
         searchParams
-    ].filter(Boolean).join('/')}/?search_source=search_function`;
+    ].filter(Boolean).join('/')
 }
 
 export function extractPropertyDetails(element: cheerio.Element, $: cheerio.Root): Property {
@@ -89,4 +91,24 @@ export function extractPropertyDetails(element: cheerio.Element, $: cheerio.Root
         has_video_link: hasVideoLink,
         accepting_in_person_inspections: acceptingInPersonInspections,
     };
+}
+
+export async function fetchPropertiesPage(url: string, headers: Headers): Promise<cheerio.Root> {
+    const $ = await fetchGetHtml(url, headers);
+    return $;
+}
+
+export function getNumberOfPagesToFetch(numberOfPropertiesToReturn: number, propertiesPerPage: number): number {
+    return Math.ceil(numberOfPropertiesToReturn / propertiesPerPage);
+}
+
+export function parsePropertiesFromPage($: cheerio.Root): Property[] {
+    const properties: Property[] = [];
+
+    $('[class*="listingTileBox"]').each((index, element) => {
+        const property = extractPropertyDetails(element, $);
+        properties.push(property);
+    });
+
+    return properties;
 }

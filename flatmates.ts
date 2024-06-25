@@ -1,7 +1,9 @@
 import { createSessionHeaders, fetchGet, fetchGetHtml, fetchPost } from './client';
-import { buildSearchUrl, extractPropertyDetails } from './property-search';
+import { buildSearchUrl, extractPropertyDetails, fetchPropertiesPage, getNumberOfPagesToFetch, parsePropertiesFromPage } from './property-search';
 import type { ConversationDetailResponse, MessagesResponse, Property, SearchPropertiesArgs, SendMessagePayload, SendMessageResponse, SessionConfig } from './types';
 import { toUrlEncoded } from './utils';
+
+const PROPERTIES_PER_PAGE = 12;
 
 export async function getNewMessagesCount(sessionConfig: SessionConfig): Promise<number> {
     const headers = createSessionHeaders(sessionConfig);
@@ -51,17 +53,21 @@ export async function searchProperties(
     const headers = createSessionHeaders(sessionConfig);
     headers.set('Accept', 'text/html');
 
-    const url = buildSearchUrl(searchArgs);
-    console.log(url)
-    const $ = await fetchGetHtml(url, headers);
+    const { numberOfPropertiesToReturn = PROPERTIES_PER_PAGE, sort = '' } = searchArgs;
+    const numberOfPagesToFetch = getNumberOfPagesToFetch(numberOfPropertiesToReturn, PROPERTIES_PER_PAGE);
 
     const properties: Property[] = [];
+    const urlBase = buildSearchUrl(searchArgs);
 
-    $('[class*="listingTileBox"]').each((index, element) => {
-        const property = extractPropertyDetails(element, $);
-        properties.push(property);
-    });
+    for (let page = 1; page <= numberOfPagesToFetch; page++) {
+        const url = `/${urlBase}?page=${page}&search_source=search_function`;
+        console.log('Fetching page:', page, url)
+        const $ = await fetchPropertiesPage(url, headers);
+        const pageProperties = parsePropertiesFromPage($);
+        properties.push(...pageProperties);
 
-    return properties;
+        if (properties.length >= numberOfPropertiesToReturn) break;
+    }
+
+    return properties.slice(0, numberOfPropertiesToReturn);
 }
-

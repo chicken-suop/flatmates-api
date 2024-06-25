@@ -22,26 +22,27 @@ describe("Property Search Functions", () => {
             parkingType: "off-street-parking",
             acceptingOf: ["pets", "students"],
             keywords: ["air-con"],
+            sort: "cheapest",
         };
 
         const url = buildSearchUrl(args);
-        expect(url).toContain('/granny-flats+studios/melbourne/1-year+2-rooms+available-25-06-2024+females+private-room+all-female+furnished+ensuite+off-street-parking+keywords-air-con+min-100+max-1000+bills-included+pets+students');
+        expect(url).toContain('granny-flats+studios/melbourne/1-year+2-rooms+available-25-06-2024+females+private-room+all-female+furnished+ensuite+off-street-parking+keywords-air-con+min-100+max-1000+bills-included+pets+students+cheapest');
     });
 
     it("extractPropertyDetails should extract property details from HTML", () => {
         const html = `
-      <div class="listingTileBox">
-        <a class="contentBox" href="/share-house-melbourne-3053-P12345" aria-label="Test Property"></a>
-        <div class="price">$300 / week</div>
-        <div class="address">Melbourne</div>
-        <div class="secondaryContent">Test Details</div>
-        <div class="availability">Available Now</div>
-        <div class="imageContainer"><img src="https://test.com/image.jpg" /></div>
-        <div class="propertyFeature"><p>2</p></div>
-        <div class="propertyFeature"><p>1</p></div>
-        <div class="propertyFeature"><p>0</p></div>
-      </div>
-    `;
+            <div class="listingTileBox">
+                <a class="contentBox" href="/share-house-melbourne-3053-P12345" aria-label="Test Property"></a>
+                <div class="price">$300 / week</div>
+                <div class="address">Melbourne</div>
+                <div class="secondaryContent">Test Details</div>
+                <div class="availability">Available Now</div>
+                <div class="imageContainer"><img src="https://test.com/image.jpg" /></div>
+                <div class="propertyFeature"><p>2</p></div>
+                <div class="propertyFeature"><p>1</p></div>
+                <div class="propertyFeature"><p>0</p></div>
+            </div>
+        `;
         const $ = cheerio.load(html);
         const element = $(".listingTileBox")[0];
         const property = extractPropertyDetails(element, $);
