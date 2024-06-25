@@ -6,7 +6,7 @@ import {
     sendMessage,
     searchProperties
 } from "../flatmates";
-import type { SessionConfig, MessagesResponse, ConversationDetailResponse, Property, SendMessageResponse } from "../types";
+import type { SessionConfig, MessagesResponse, ConversationDetailResponse, Property, SendMessageResponse, SendMessagePayload } from "../types";
 
 const sessionConfig: SessionConfig = {
     csrfToken: "testCsrfToken",
@@ -119,7 +119,14 @@ describe("Flatmates Functions", () => {
             json: () => Promise.resolve(mockResponse),
         });
 
-        const response = await sendMessage(sessionConfig, "listingId", "Hello");
+        const payload: SendMessagePayload = {
+            listing: 'PROPERTY',
+            listing_id: '952182',
+            member_id: '',
+            message: 'hi :)'
+        };
+
+        const response = await sendMessage(sessionConfig, payload);
         expect(response).toEqual(mockResponse);
     });
 

@@ -23,22 +23,13 @@ export async function getConversationAndMarkAsRead(sessionConfig: SessionConfig,
     return response as ConversationDetailResponse;
 }
 
+
 export async function sendMessage(
     sessionConfig: SessionConfig,
-    listingId: string,
-    message: string,
-    memberId?: string,
+    payload: SendMessagePayload,
 ): Promise<SendMessageResponse> {
     const headers = createSessionHeaders(sessionConfig);
-    headers.append('Accept', 'application/json');
     headers.append('Content-Type', 'application/x-www-form-urlencoded');
-
-    const payload: SendMessagePayload = {
-        listing: 'PERSON',
-        listing_id: listingId,
-        message: message,
-        member_id: memberId,
-    };
 
     const body = toUrlEncoded(payload);
 
