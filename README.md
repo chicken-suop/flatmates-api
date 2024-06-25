@@ -1,23 +1,30 @@
-# flatmates-api-node
+# Flatmates API Node Client
 
-To install dependencies:
+This project provides a Node.js client for interacting with the Flatmates.com.au API. It includes functions for retrieving messages, sending messages, searching for properties, and more.
 
-```bash
+## Features
+
+- Fetch new messages count
+- Get messages
+- Get conversation details and mark as read
+- Send messages
+- Search for properties
+
+## Installation
+
+To install the dependencies, run:
+
+```sh
 bun install
 ```
 
-To run:
+## Usage
 
-```bash
-bun run index.ts
-```
+### Extracting Session ID, CSRF Token, KP_UIDz cookie
 
-This project was created using `bun init` in bun v1.1.16. [Bun](https://bun.sh) is a fast all-in-one JavaScript runtime.
+Run this in the browser console to get the session ID and CSRF token.
 
-
-## Extracting Session ID and CSRF Token
-
-Run this in the browser console to get the session ID and CSRF token. You need to manually get `_flatmates_session` from Application > Cookies in the browser.
+**You need to manually get `_flatmates_session` and `KP_UIDz` cookies from Application > Cookies in the browser.**
 
 ```JavaScript
 (() => {
@@ -44,8 +51,19 @@ Run this in the browser console to get the session ID and CSRF token. You need t
 
     return {
         _session,
-        _flatmates_session_id,
         csrfToken
     };
 })();
+```
+
+### Examples
+
+See examples in the `examples` directory.
+
+## Running Tests
+
+To run the tests, use the Bun test runner:
+
+```sh
+bun test
 ```
