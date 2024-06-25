@@ -10,7 +10,7 @@ describe("Property Search Functions", () => {
             minPrice: 100,
             maxPrice: 1000,
             billsIncluded: true,
-            availableFrom: "2024-06-25",
+            availableFrom: new Date('2024-06-25'),
             stayLength: "1-year",
             propertyTypes: ["granny-flats", "studios"],
             womenOnlyHousehold: "all-female",
@@ -25,7 +25,7 @@ describe("Property Search Functions", () => {
         };
 
         const url = buildSearchUrl(args);
-        expect(url).toContain('/granny-flats+studios/melbourne/1-year+2-rooms+available-2024-06-25+females+private-room+all-female+furnished+ensuite+off-street-parking+keywords-air-con+min-100+max-1000+bills-included+pets+students');
+        expect(url).toContain('/granny-flats+studios/melbourne/1-year+2-rooms+available-25-06-2024+females+private-room+all-female+furnished+ensuite+off-street-parking+keywords-air-con+min-100+max-1000+bills-included+pets+students');
     });
 
     it("extractPropertyDetails should extract property details from HTML", () => {

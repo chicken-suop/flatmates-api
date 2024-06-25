@@ -1,5 +1,6 @@
 import { API_BASE_URL } from "./client";
 import type { Property, SearchPropertiesArgs } from "./types";
+import { formatDateToDDMMYYYY } from "./utils";
 
 export function buildSearchUrl({
     location,
@@ -25,11 +26,12 @@ export function buildSearchUrl({
     const maxPriceParam = typeof maxPrice !== 'undefined' ? `max-${maxPrice}` : '';
     const formattedKeywords = keywords ? `keywords-${keywords.join('-').replace(/[\s,]+/g, '-')}` : '';
     const billsIncludedParam = billsIncluded ? 'bills-included' : '';
+    const formattedAvailableFrom = availableFrom ? `available-${formatDateToDDMMYYYY(availableFrom)}` : '';
 
     const searchParams = [
         stayLength,
         rooms,
-        availableFrom ? `available-${availableFrom}` : '',
+        formattedAvailableFrom,
         placesAccepting,
         roomType,
         womenOnlyHousehold,

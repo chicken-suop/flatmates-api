@@ -189,7 +189,7 @@ export interface SearchPropertiesArgs {
     minPrice?: number;
     maxPrice?: number;
     billsIncluded?: boolean;
-    availableFrom?: string;
+    availableFrom?: Date;
     stayLength?: StayLength;
     propertyTypes?: PropertyType[];
     womenOnlyHousehold?: WomenOnlyHousehold;
