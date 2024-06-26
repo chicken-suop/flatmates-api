@@ -37,7 +37,8 @@ export type BathroomType = 'ensuite' | 'ensuite-or-own';
 
 export type ParkingType = 'off-street-parking' | 'no-parking' | 'on-street-parking';
 
-export type PropertyType = 
+export type PropertyType =
+    | 'rooms'
     | 'share-houses'
     | 'granny-flats'
     | 'studios'
@@ -48,8 +49,7 @@ export type PropertyType =
 
 export type PropertySearchSort = 'newest' | 'cheapest' | 'most-expensive' | 'earliest-available' | 'recently-active';
 
-export interface SearchPropertiesArgs {
-    location: string;
+export type SearchFilters = {
     minPrice?: number;
     maxPrice?: number;
     billsIncluded?: boolean;
@@ -65,6 +65,10 @@ export interface SearchPropertiesArgs {
     parkingType?: ParkingType;
     acceptingOf?: AcceptingOf[];
     keywords?: string[];
+    sort?: PropertySearchSort;
+};
+
+export interface SearchPropertiesArgs extends SearchFilters {
+    location: string;
     numberOfPropertiesToReturn?: number;
-    sort?: PropertySearchSort,
 }

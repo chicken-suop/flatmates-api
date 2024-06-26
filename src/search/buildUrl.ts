@@ -1,54 +1,43 @@
-import type { SearchPropertiesArgs } from '../types/search';
+import type { SearchFilters, SearchPropertiesArgs } from '../types/search';
 import { formatDateToDDMMYYYY } from '../utils/date';
 
-export function buildSearchUrl({
-    location,
-    minPrice,
-    maxPrice,
-    billsIncluded,
-    availableFrom,
-    stayLength,
-    propertyTypes,
-    womenOnlyHousehold,
-    roomType,
-    placesAccepting,
-    furnishings,
-    bathroomType,
-    rooms,
-    parkingType,
-    acceptingOf,
-    keywords,
-    sort
-}: SearchPropertiesArgs): string {
-    const propertyTypesParam = propertyTypes?.join('+') ?? 'rooms';
-    const acceptingOfParam = acceptingOf?.join('+') ?? '';
-    const minPriceParam = typeof minPrice !== 'undefined' ? `min-${minPrice}` : '';
-    const maxPriceParam = typeof maxPrice !== 'undefined' ? `max-${maxPrice}` : '';
-    const formattedKeywords = keywords ? `keywords-${keywords.join('-').replace(/[\s,]+/g, '-')}` : '';
-    const billsIncludedParam = billsIncluded ? 'bills-included' : '';
-    const formattedAvailableFrom = availableFrom ? `available-${formatDateToDDMMYYYY(availableFrom)}` : '';
+const joinItems = (items: any[] = [], delimiter = '+') => items.join(delimiter);
 
-    const searchParams = [
-        stayLength,
-        rooms,
-        formattedAvailableFrom,
-        placesAccepting,
-        roomType,
-        womenOnlyHousehold,
-        furnishings,
-        bathroomType,
-        parkingType,
-        formattedKeywords,
-        minPriceParam,
-        maxPriceParam,
-        billsIncludedParam,
-        acceptingOfParam,
-        sort
-    ].filter(param => param).join('+');
+const formatRange = (value?: number, type?: 'min' | 'max') => (value !== undefined ? `${type}-${value}` : '');
 
-    return [
-        propertyTypesParam,
+const formatKeywords = (keywords: string[] = []) => 
+    keywords.length ? `keywords-${keywords.join('-').replace(/[\s,]+/g, '-')}` : '';
+
+const formatDate = (date?: Date) => date ? `available-${formatDateToDDMMYYYY(date)}` : '';
+
+const formatFlag = (label: string, flag?: boolean) => (flag ? label : '');
+
+const buildQueryParams = (filters: SearchFilters) => {
+    return joinItems([
+        filters.stayLength,
+        filters.rooms,
+        formatDate(filters.availableFrom),
+        filters.placesAccepting,
+        filters.roomType,
+        filters.womenOnlyHousehold,
+        filters.furnishings,
+        filters.bathroomType,
+        filters.parkingType,
+        formatKeywords(filters.keywords),
+        formatRange(filters.minPrice, 'min'),
+        formatRange(filters.maxPrice, 'max'),
+        formatFlag('bills-included', filters.billsIncluded),
+        joinItems(filters.acceptingOf),
+        filters.sort
+    ].filter(Boolean));
+};
+
+export const buildSearchUrl = (args: SearchPropertiesArgs): string => {
+    const { location, propertyTypes, ...filters } = args;
+
+    return joinItems([
+        joinItems(propertyTypes),
         location,
-        searchParams
-    ].filter(Boolean).join('/')
-}
+        buildQueryParams(filters)
+    ], '/');
+};
