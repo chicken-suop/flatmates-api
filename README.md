@@ -1,6 +1,6 @@
-# Flatmates API Node Client
+# Flatmates API Bun Client
 
-This project provides a Node.js client for interacting with the Flatmates.com.au API. It includes functions for retrieving messages, sending messages, searching for properties, and more.
+This project provides a Bun client for interacting with the Flatmates.com.au API. It includes functions for retrieving messages, sending messages, searching for properties, and more.
 
 ## Features
 
