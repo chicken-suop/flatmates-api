@@ -17,9 +17,20 @@ const extractPropertyId = (linkElement: cheerio.Cheerio): number => {
 
 const isAvailableNow = (availabilityText: string): boolean => availabilityText.includes('Available Now');
 
+const parseAvailabilityDate = (availabilityText: string): Date => {
+    const datePattern = /(\d{1,2})\s+(\w+)\s+(\d{4})/;  // e.g., "16 July 2024"
+    const match = availabilityText.match(datePattern);
+    if (match) {
+        const [ , day, month, year ] = match;
+        return new Date(`${day} ${month} ${year}`);
+    }
+    return new Date();  // Default to current date if parsing fails
+};
+
 export const extractPropertyDetails = (element: cheerio.Element, $: cheerio.Root): Property => {
     const linkElement = $(element).find('a[class*="contentBox"]');
     const features = $(element).find('[class*="propertyFeature"]');
+    const availabilityText = extractText(element, $, '[class*="availability"]');
 
     return {
         id: extractPropertyId(linkElement),
@@ -34,6 +45,6 @@ export const extractPropertyDetails = (element: cheerio.Element, $: cheerio.Root
         carSpaces: extractNumber(features[2], $, 'p'),
         type: extractText(element, $, '[class*="roomInfo"]'),
         rent: extractText(element, $, '[class*="price"]'),
-        earliest_date_available: extractText(element, $, '[class*="availability"]'),
+        earliestDateAvailable: parseAvailabilityDate(availabilityText),
     };
 }

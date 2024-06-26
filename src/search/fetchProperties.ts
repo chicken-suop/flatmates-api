@@ -33,11 +33,11 @@ export async function searchProperties(
     const headers = createSessionHeaders(sessionConfig);
     headers.set('Accept', 'text/html');
 
-    const { numberOfPropertiesToReturn = PROPERTIES_PER_PAGE, sort = '' } = searchArgs;
+    const { numberOfPropertiesToReturn = PROPERTIES_PER_PAGE, propertyTypes = ['rooms'] } = searchArgs;
     const numberOfPagesToFetch = getNumberOfPagesToFetch(numberOfPropertiesToReturn, PROPERTIES_PER_PAGE);
 
     const properties: Property[] = [];
-    const urlBase = buildSearchUrl(searchArgs);
+    const urlBase = buildSearchUrl({ ...searchArgs, propertyTypes });
 
     for (let page = 1; page <= numberOfPagesToFetch; page++) {
         const url = `/${urlBase}?page=${page}&search_source=search_function`;

@@ -60,7 +60,7 @@ describe("Property Search Functions", () => {
             carSpaces: 0,
             type: "",
             rent: "$300 / week",
-            earliest_date_available: "Available Now",
+            earliestDateAvailable: new Date(),
         });
     });
 });

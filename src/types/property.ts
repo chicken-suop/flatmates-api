@@ -11,5 +11,5 @@ export interface Property {
     carSpaces: number;
     type: string;
     rent: string;
-    earliest_date_available: string;
+    earliestDateAvailable: Date;
 }
