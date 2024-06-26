@@ -4,7 +4,6 @@ export interface Property {
     link: string;
     address: string;
     price: string;
-    details: string;
     image: string;
     availableNow: boolean;
     rooms: number;
@@ -13,6 +12,4 @@ export interface Property {
     type: string;
     rent: string;
     earliest_date_available: string;
-    has_video_link: boolean;
-    accepting_in_person_inspections: boolean;
 }

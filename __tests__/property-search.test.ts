@@ -53,7 +53,6 @@ describe("Property Search Functions", () => {
             link: "https://flatmates.com.au/share-house-melbourne-3053-P12345",
             address: "Melbourne",
             price: "$300 / week",
-            details: "Test Details",
             image: "https://test.com/image.jpg",
             availableNow: true,
             rooms: 2,
@@ -62,8 +61,6 @@ describe("Property Search Functions", () => {
             type: "",
             rent: "$300 / week",
             earliest_date_available: "Available Now",
-            has_video_link: false,
-            accepting_in_person_inspections: true,
         });
     });
 });
