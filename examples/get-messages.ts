@@ -1,5 +1,5 @@
-import { getConversationAndMarkAsRead, getMessages, getNewMessagesCount } from "../flatmates";
-import type { SessionConfig } from "../types";
+import { getConversationAndMarkAsRead, getMessages, getNewMessagesCount } from "../src/messages/messages";
+import type { SessionConfig } from "../src/types";
 
 const sessionConfig: SessionConfig = {
     csrfToken: 'testCsrfToken',

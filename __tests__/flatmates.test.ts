@@ -1,12 +1,7 @@
 import { describe, expect, it, jest, beforeAll, afterEach } from "bun:test";
-import {
-    getNewMessagesCount,
-    getMessages,
-    getConversationAndMarkAsRead,
-    sendMessage,
-    searchProperties
-} from "../flatmates";
-import type { SessionConfig, MessagesResponse, ConversationDetailResponse, Property, SendMessageResponse, SendMessagePayload } from "../types";
+import type { SessionConfig, MessagesResponse, ConversationDetailResponse, SendMessageResponse, SendMessagePayload } from "../src/types";
+import { getConversationAndMarkAsRead, getMessages, getNewMessagesCount, sendMessage } from "../src/messages/messages";
+import { searchProperties } from "../src/search/fetchProperties";
 
 const sessionConfig: SessionConfig = {
     csrfToken: "testCsrfToken",

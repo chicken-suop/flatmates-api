@@ -1,7 +1,8 @@
 import { describe, expect, it } from "bun:test";
-import { buildSearchUrl, extractPropertyDetails } from "../property-search";
 import cheerio from "cheerio";
-import type { SearchPropertiesArgs } from "../types";
+import type { SearchPropertiesArgs } from "../src/types";
+import { buildSearchUrl } from "../src/search/buildUrl";
+import { extractPropertyDetails } from "../src/search/parse";
 
 describe("Property Search Functions", () => {
     it("buildSearchUrl should construct a correct URL", () => {

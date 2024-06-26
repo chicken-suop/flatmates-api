@@ -1,5 +1,4 @@
-import Cheerio from "cheerio";
-import type { SessionConfig } from "./types";
+import type { SessionConfig } from "../types";
 
 export const API_BASE_URL = 'https://flatmates.com.au';
 const REQUEST_HEADERS = {
@@ -20,22 +19,4 @@ export function createSessionHeaders({ csrfToken, sessionId, flatmatesSessionId,
     const cookieString = Object.entries(cookies).map(([key, value]) => `${key}=${value}`).join('; ');
     headers.set('Cookie', cookieString);
     return headers;
-}
-
-export async function fetchGet(url: string, headers: Headers) {
-    const response = await fetch(`${API_BASE_URL}${url}`, { method: 'GET', headers });
-    const data = await response.json();
-    return data;
-}
-
-export async function fetchPost(url: string, data: any, headers: Headers) {
-    const response = await fetch(`${API_BASE_URL}${url}`, { method: 'POST', headers, body: data });
-    const responseData = await response.json();
-    return responseData;
-}
-
-export async function fetchGetHtml(url: string, headers: Headers) {
-    const response = await fetch(`${API_BASE_URL}${url}`, { method: 'GET', headers });
-    const data = await response.text();
-    return Cheerio.load(data);
 }

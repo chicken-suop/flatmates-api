@@ -1,5 +1,5 @@
-import { searchProperties } from "../flatmates";
-import type { SearchPropertiesArgs, SessionConfig } from "../types";
+import { searchProperties } from "../src/search/fetchProperties";
+import type { SearchPropertiesArgs, SessionConfig } from "../src/types";
 
 const sessionConfig: SessionConfig = {
     csrfToken: 'testCsrfToken',

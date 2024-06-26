@@ -1,5 +1,5 @@
-import { sendMessage } from "../flatmates";
-import type { SendMessagePayload, SessionConfig } from "../types";
+import { sendMessage } from "../src/flatmates";
+import type { SendMessagePayload, SessionConfig } from "../src/types";
 
 const sessionConfig: SessionConfig = {
     csrfToken: 'testCsrfToken',

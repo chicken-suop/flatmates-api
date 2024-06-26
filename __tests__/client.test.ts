@@ -1,6 +1,7 @@
 import { describe, expect, it, jest } from "bun:test";
-import { createSessionHeaders, fetchGet, fetchPost, fetchGetHtml } from "../client";
-import type { SessionConfig } from "../types";
+import type { SessionConfig } from "../src/types";
+import { createSessionHeaders } from "../src/client/session";
+import { fetchGet, fetchGetHtml, fetchPost } from "../src/client/api";
 
 const sessionConfig: SessionConfig = {
     csrfToken: "testCsrfToken",
